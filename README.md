@@ -32,7 +32,7 @@ ChromeもしくはFirefoxでeAMUSEMENTにログインしてください。
 ### プログラム起動
 
 ```console
-$ pyslash [-b <browser>]
+$ kac6vote [-b <browser>]
 ```
 
 `<browser>` には `chrome` もしくは `firefox` を指定します。先ほどログインしたブラウザを指定してください。
