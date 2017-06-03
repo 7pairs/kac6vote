@@ -1,13 +1,17 @@
 # kac6vote
 
+[![Build Status](https://travis-ci.org/7pairs/kac6vote.svg?branch=master)](https://travis-ci.org/7pairs/kac6vote)
+[![Coverage Status](https://coveralls.io/repos/github/7pairs/kac6vote/badge.svg?branch=master)](https://coveralls.io/github/7pairs/kac6vote?branch=master)
+
 ## 概要
 
 "kac6vote" は [QMAジャパンツアー2016 グランドスラムダービー](http://p.eagate.573.jp/game/qma/12/p/qt/setkac.html) の全組み合わせ120通りを自動で投票するためのツールです。
-コナミ様におかれましては、今後はUIの抜本的な見直しを実施していただき、私が来年 "kac7vote" というツールを作る必要がなくなっていることを強く願っています。
+コナミ様におかれましては、今後ユーザーインターフェイスを抜本的に見直していただき、来年は "kac7vote" などというツールを作る必要がなくなっていることを強く願っています。
 
 ## 動作環境
 
-Python2.7での動作を確認しています。OSはMac、Linux、Windows、ブラウザはChrome、Firefoxで動くことになっていますが、Mac＋Chromeの組み合わせでのみ動作を確認しています。
+Python2.7での動作を確認しています。
+OSはmacOS、Linux、Windows、ブラウザはChrome、Firefoxで動作すると思われますが、開発環境の都合によりmacOS + Chromeの組み合わせでのみテストを実施しています。
 
 ## インストール
 
@@ -23,20 +27,34 @@ pipを利用して、GitHubから直接インストールすることもでき�
 $ pip install git+https://github.com/7pairs/kac6vote.git
 ```
 
-## 実行方法
+## 実行
 
 ### 前準備
 
-ChromeもしくはFirefoxでeAMUSEMENTにログインしてください。
+ChromeもしくはFirefoxで[eAMUSEMENT](http://p.eagate.573.jp/)にログインしてください。
 
-### プログラム起動
+### 起動
 
 ```console
 $ kac6vote [-b <browser>]
 ```
 
-`<browser>` には `chrome` もしくは `firefox` を指定します。先ほどログインしたブラウザを指定してください。
-`-b` オプションを省略すると `chrome` を指定したことになります。 `-b` オプションに `chrome` 、 `firefox` 以外の文字列を指定しても `chrome` を指定したことになります。
+`<browser>` には `chrome` もしくは `firefox` を指定します。
+前準備でログインに使用したブラウザを指定してください。
+`-b` オプションを省略すると `chrome` を指定したものと見なします。
+`-b` オプションに `chrome` 、 `firefox` 以外の文字列を指定しても `chrome` を指定したものと見なします。
+打ち間違いにご注意ください。
+
+## ライブラリ
+
+kac6voteでは下記のライブラリを利用しています。
+
+- [beautifulsoup4](https://pypi.python.org/pypi/beautifulsoup4)
+- [browsercookie](https://pypi.python.org/pypi/browsercookie)
+- [docopt](https://pypi.python.org/pypi/docopt)
+- [mock](https://pypi.python.org/pypi/mock)
+- [pytest](https://pypi.python.org/pypi/pytest)
+- [requests](https://pypi.python.org/pypi/requests)
 
 ## ライセンス
 
