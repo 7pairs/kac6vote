@@ -19,16 +19,24 @@
 
 from setuptools import find_packages, setup
 
+from kac6vote import __version__
 
+
+# セットアップを実行する
 setup(
     name='kac6vote',
-    version='1.0.0',
+    version=__version__,
     description='Tool for voting on QMA Japan Tour 2016 Grand Slam Derby.',
     author='Jun-ya HASEBA',
     author_email='7pairs@gmail.com',
     url='https://github.com/7pairs/kac6vote',
     packages=find_packages(exclude=['tests']),
-    install_requires=['beautifulsoup4', 'browsercookie', 'docopt', 'requests'],
+    install_requires=[
+        'beautifulsoup4',
+        'browsercookie',
+        'docopt',
+        'requests'
+    ],
     entry_points="""\
     [console_scripts]
     kac6vote = kac6vote.kac6vote:main
