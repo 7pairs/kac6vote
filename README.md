@@ -6,7 +6,7 @@
 ## 概要
 
 "kac6vote"は [QMAジャパンツアー2016 グランドスラムダービー](http://p.eagate.573.jp/game/qma/12/p/qt/setkac.html) の全組み合わせ120通りを一括して投票するツールです。
-株式会社コナミアミューズメント様におかれましては、今後はユーザーインターフェイスを抜本的に見直していただき、来年はこのようなツールが不要なサイトを作っていただけますよう、なにとぞよろしくお願い申し上げます。
+株式会社コナミアミューズメント様におかれましては、今後はユーザーインターフェイスを抜本的に見直していただき、来年はこのようなツールが不要なシステムにしていただけますよう、なにとぞよろしくお願い申し上げます。
 
 ## 動作環境
 
@@ -17,13 +17,13 @@ OSはmacOS、Linux、Windows、ブラウザはChrome、Firefoxで動作すると
 
 同梱の `setup.py` を実行してください。
 
-```console
+```
 $ python setup.py install
 ```
 
 pipを利用して、GitHubから直接インストールすることも可能です。
 
-```console
+```
 $ pip install git+https://github.com/7pairs/kac6vote.git
 ```
 
@@ -35,7 +35,7 @@ ChromeもしくはFirefoxで [eAMUSEMENT](http://p.eagate.573.jp/) にログイ�
 
 ### 起動
 
-```console
+```
 $ kac6vote [-b <browser>]
 ```
 
