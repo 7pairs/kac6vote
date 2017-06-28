@@ -37,8 +37,9 @@ setup(
         'docopt',
         'requests'
     ],
-    entry_points="""\
-    [console_scripts]
-    kac6vote = kac6vote.kac6vote:main
-    """
+    entry_points={
+        'console_scripts': [
+            'kac6vote = kac6vote.kac6vote:main',
+        ],
+    }
 )
