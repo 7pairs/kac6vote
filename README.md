@@ -11,7 +11,7 @@
 ## 動作環境
 
 Python2.7での動作を確認しています。
-OSはmacOS、Linux、Windows、ブラウザはChrome、Firefoxで動作すると思われますが、開発環境の都合によりmacOS＋Chromeの組み合わせのみテストを実施しています。
+OSはmacOS、Linux、Windows、ブラウザはChrome、Firefoxで動作するはずですが、開発環境の都合によりmacOS＋Chromeの組み合わせのみテストを実施しています。
 
 ## インストール
 
@@ -47,7 +47,7 @@ $ kac6vote [-b <browser>]
 
 ## ライブラリ
 
-kac6voteでは下記のライブラリを利用しています。
+kac6voteでは以下のライブラリを利用しています。
 
 - [beautifulsoup4](https://pypi.python.org/pypi/beautifulsoup4)
 - [browsercookie](https://pypi.python.org/pypi/browsercookie)
