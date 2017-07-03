@@ -35,7 +35,7 @@ setup(
         'beautifulsoup4',
         'browsercookie',
         'docopt',
-        'requests'
+        'requests',
     ],
     entry_points={
         'console_scripts': [
