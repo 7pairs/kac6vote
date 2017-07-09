@@ -62,7 +62,7 @@ _WAIT_AFTER_VOTE = 1
 def _windows_31j(codec_name):
     """
     Windows-31J用の検索関数。
-    一番近いShift_JISにマッピングする。
+    一番近いと思われるShift_JISにマッピングする。
 
     :param codec_name: コーデック名
     :type codec_name: str
@@ -107,16 +107,10 @@ def main():
         exit()
 
     # 賢闘士の情報を取得する
-    soup = bs4.BeautifulSoup(vote_page_html, 'html.parser')
-    select = soup.find('select', {'name': 'vote0'})
-    options = select.find_all('option')
-    players = [Player(name=option.text.strip(), value=option['value'].strip()) for option in options]
+    players = _get_players(vote_page_html)
 
-    # すべての組み合わせに投票する
-    for quinella in itertools.combinations(players, 2):
-        print(quinella[0].name, '-', quinella[1].name, 'に投票しています...')
-        requests.post(_VOTE_PAGE_URL, {'vote0': quinella[0].value, 'vote1': quinella[1].value}, cookies=cookie_jar)
-        time.sleep(_WAIT_AFTER_VOTE)
+    # 投票する
+    _vote(players)
 
     # 正常終了
     print('投票が完了しました！')
@@ -156,16 +150,54 @@ def _get_html(url, cookie_jar=None):
 
 def _get_login_player_name(html):
     """
+    指定されたHTMLからログインユーザー名を抽出する。
 
-    :param html:
-    :return:
+    :param html: 投票ページのHTML
+    :type html: str
+    :return: ログインユーザー名
+    :rtype: str
     """
+    # ログインユーザー名を返却する
     soup = bs4.BeautifulSoup(html, 'html.parser')
     player_name_box = soup.find('div', {'class': 'player_name_box'})
     if player_name_box:
         return player_name_box.text.strip()
     else:
         return None
+
+
+def _get_players(html):
+    """
+    指定されたHTMLから賢闘士の情報を抽出する。
+
+    :param html: 投票ページのHTML
+    :type html: str
+    :return: 賢闘士の情報
+    :rtype: list
+    """
+    # 賢闘士の情報を返却する
+    soup = bs4.BeautifulSoup(html, 'html.parser')
+    select = soup.find('select', {'name': 'vote0'})
+    options = select.find_all('option')
+    return [Player(name=option.text.strip(), value=option['value'].strip()) for option in options]
+
+
+def _vote(players, url, cookie_jar):
+    """
+    指定された賢闘士の情報をもとに、すべての組み合わせに投票する。
+
+    :param players: 賢闘士の情報
+    :type players: list
+    :param url: 投票ページのURL
+    :type url: str
+    :param cookie_jar: CookieJar
+    :type cookie_jar: cookielib.CookieJar
+    """
+    # すべての組み合わせに投票する
+    for quinella in itertools.combinations(players, 2):
+        print(quinella[0].name, '-', quinella[1].name, 'に投票しています...')
+        requests.post(url, {'vote0': quinella[0].value, 'vote1': quinella[1].value}, cookies=cookie_jar)
+        time.sleep(_WAIT_AFTER_VOTE)
 
 
 # メイン処理を呼び出す
