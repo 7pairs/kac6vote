@@ -11,7 +11,7 @@
 ## 動作環境
 
 Python2.7での動作を確認しています。
-OSはmacOS、Linux、Windows、ブラウザはChrome、Firefoxで動作するはずですが、開発環境の都合によりmacOS＋Chromeの組み合わせのみテストを実施しています。
+OSはmacOS、Linux、Windows、ブラウザはChrome、Firefoxで動作するはずですが、開発環境の都合によりmacOS＋Chromeの組み合わせでのみテストを実施しています。
 
 ## インストール
 
@@ -21,7 +21,7 @@ OSはmacOS、Linux、Windows、ブラウザはChrome、Firefoxで動作するは
 $ python setup.py install
 ```
 
-pipを利用して、GitHubから直接インストールすることも可能です。
+pipが利用できる環境では、GitHubから直接インストールすることも可能です。
 
 ```
 $ pip install git+https://github.com/7pairs/kac6vote.git
