@@ -98,7 +98,7 @@ def main():
     # ログインユーザー名を取得する
     login_player_name = _get_login_player_name(vote_page_html)
     if not login_player_name:
-        print('ブラウザでログインしてから実行してください。')
+        print('ブラウザでeAMUSEMENTにログインしてから起動してください。')
         exit()
 
     # 確認メッセージを表示する
@@ -109,8 +109,8 @@ def main():
     # 賢闘士の情報を取得する
     players = _get_players(vote_page_html)
 
-    # 投票する
-    _vote(players)
+    # すべての組み合わせに投票する
+    _vote(players, _VOTE_PAGE_URL, cookie_jar)
 
     # 正常終了
     print('投票が完了しました！')
@@ -182,7 +182,7 @@ def _get_players(html):
     return [Player(name=option.text.strip(), value=option['value'].strip()) for option in options]
 
 
-def _vote(players, url, cookie_jar):
+def _vote(players, url, cookie_jar=None):
     """
     指定された賢闘士の情報をもとに、すべての組み合わせに投票する。
 
