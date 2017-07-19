@@ -49,34 +49,34 @@ from . import __version__
 
 
 # 投票ページのURL
-VOTE_PAGE_URL = 'http://p.eagate.573.jp/game/qma/12/p/qt/setkac.html'
+_VOTE_PAGE_URL = 'http://p.eagate.573.jp/game/qma/12/p/qt/setkac.html'
 
 # コンソールの文字コード
-CONSOLE_ENCODE = 'shift_jis' if sys.platform == 'win32' else 'utf-8'
+_CONSOLE_ENCODE = 'shift_jis' if sys.platform == 'win32' else 'utf-8'
 
 # 投票後のウェイト(秒)
-WAIT_AFTER_VOTE = 1
+_WAIT_AFTER_VOTE = 1
 
 
 # 21世紀に入って16年が過ぎたというのにまさかのShift_JIS対応
-def windows31j(name):
+def _windows_31j(codec_name):
     """
     Windows-31J用の検索関数。
-    厳密には同一のコードではないが、近いものとしてShift_JISにマッピングする。
+    一番近いと思われるShift_JISにマッピングする。
 
-    :param name: コーデック名
-    :type name: str
+    :param codec_name: コーデック名
+    :type codec_name: str
     :return: Windows-31Jが指定された場合はShift_JIS、それ以外の場合はNone
     :rtype: codecs.CodecInfo
     """
     # Windows-31JをShift_JISにマッピングする
-    if name.lower() == 'windows-31j':
+    if codec_name.lower() == 'windows-31j':
         return codecs.lookup('shift_jis')
     else:
         return None
 
-# Windows-31J用の検索関数を登録
-codecs.register(windows31j)
+# Windows-31J用の検索関数を登録する
+codecs.register(_windows_31j)
 
 
 # 賢闘士の情報を格納するバリューオブジェクト
@@ -88,42 +88,116 @@ def main():
     「QMAジャパンツアー2016 グランドスラムダービー」のすべての組み合わせに投票する。
     eAMUSEMENTにはブラウザのCookieを利用してログインするため、実行前にブラウザでのログインが必要。
     """
-    # Cookie取得対象のブラウザを決定する
+    # CookieJarを取得する
     args = docopt.docopt(__doc__, version=__version__)
-    if args.get('-b') == 'firefox':
-        cookie_jar = browsercookie.firefox()
-    else:
-        cookie_jar = browsercookie.chrome()
+    cookie_jar = _get_cookie_jar(args.get('-b'))
 
     # 投票ページのHTMLを取得する
-    response = requests.get(VOTE_PAGE_URL, cookies=cookie_jar)
+    vote_page_html = _get_html(_VOTE_PAGE_URL, cookie_jar)
 
     # ログインユーザー名を取得する
-    soup = bs4.BeautifulSoup(response.text.encode(response.encoding), 'html.parser')
-    player_name_box = soup.find('div', {'class': 'player_name_box'})
-    if not player_name_box:
-        print('ブラウザでログインしてから実行してください。')
+    login_player_name = _get_login_player_name(vote_page_html)
+    if not login_player_name:
+        print('ブラウザでeAMUSEMENTにログインしてから起動してください。')
         exit()
-    player_name = player_name_box.text.strip()
 
     # 確認メッセージを表示する
-    message = player_name + 'さんのアカウントで投票します (y/n) : '
-    if raw_input(message.encode(CONSOLE_ENCODE)).strip().lower() != 'y':
+    message = login_player_name + 'さんのアカウントで投票します (y/n) : '
+    if input(message.encode(_CONSOLE_ENCODE)).strip().lower() != 'y':
         exit()
 
     # 賢闘士の情報を取得する
-    select = soup.find('select', {'name': 'vote0'})
-    options = select.find_all('option')
-    players = [Player(name=option.text.strip(), value=option['value'].strip()) for option in options]
+    players = _get_players(vote_page_html)
 
     # すべての組み合わせに投票する
-    for quinella in itertools.combinations(players, 2):
-        print(quinella[0].name, '-', quinella[1].name, 'に投票しています...')
-        requests.post(VOTE_PAGE_URL, {'vote0': quinella[0].value, 'vote1': quinella[1].value}, cookies=cookie_jar)
-        time.sleep(WAIT_AFTER_VOTE)
+    _vote(players, _VOTE_PAGE_URL, cookie_jar)
 
     # 正常終了
     print('投票が完了しました！')
+
+
+def _get_cookie_jar(browser_name=None):
+    """
+    指定されたブラウザのCookieJarを取得する。
+
+    :param browser_name: ブラウザ名
+    :type browser_name: str
+    :return: CookieJar
+    :rtype: cookielib.CookieJar
+    """
+    # 指定されたブラウザのCookieJarを返却する
+    if browser_name == 'firefox':
+        return browsercookie.firefox()
+    else:
+        return browsercookie.chrome()
+
+
+def _get_html(url, cookie_jar=None):
+    """
+    指定されたURLのHTMLを取得する。
+
+    :param url: URL
+    :type url: str
+    :param cookie_jar: CookieJar
+    :type cookie_jar: cookielib.CookieJar
+    :return: HTML
+    :rtype: str
+    """
+    # 指定されたURLのHTMLを返却する
+    response = requests.get(url, cookies=cookie_jar)
+    return response.text.encode(response.encoding)
+
+
+def _get_login_player_name(html):
+    """
+    指定されたHTMLからログインユーザー名を抽出する。
+
+    :param html: 投票ページのHTML
+    :type html: str
+    :return: ログインユーザー名
+    :rtype: str
+    """
+    # ログインユーザー名を返却する
+    soup = bs4.BeautifulSoup(html, 'html.parser')
+    player_name_box = soup.find('div', {'class': 'player_name_box'})
+    if player_name_box:
+        return player_name_box.text.strip()
+    else:
+        return None
+
+
+def _get_players(html):
+    """
+    指定されたHTMLから賢闘士の情報を抽出する。
+
+    :param html: 投票ページのHTML
+    :type html: str
+    :return: 賢闘士の情報
+    :rtype: list
+    """
+    # 賢闘士の情報を返却する
+    soup = bs4.BeautifulSoup(html, 'html.parser')
+    select = soup.find('select', {'name': 'vote0'})
+    options = select.find_all('option')
+    return [Player(name=option.text.strip(), value=option['value'].strip()) for option in options]
+
+
+def _vote(players, url, cookie_jar=None):
+    """
+    指定された賢闘士の情報をもとに、すべての組み合わせに投票する。
+
+    :param players: 賢闘士の情報
+    :type players: list
+    :param url: 投票ページのURL
+    :type url: str
+    :param cookie_jar: CookieJar
+    :type cookie_jar: cookielib.CookieJar
+    """
+    # すべての組み合わせに投票する
+    for quinella in itertools.combinations(players, 2):
+        print(quinella[0].name, '-', quinella[1].name, 'に投票しています...')
+        requests.post(url, {'vote0': quinella[0].value, 'vote1': quinella[1].value}, cookies=cookie_jar)
+        time.sleep(_WAIT_AFTER_VOTE)
 
 
 # メイン処理を呼び出す
