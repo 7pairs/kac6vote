@@ -4,13 +4,13 @@ certifi==2017.7.27.1
 chardet==3.0.4
 docopt==0.6.2
 funcsigs==1.0.2
-idna==2.5
+idna==2.6
 keyring==10.4.0
 mock==2.0.0
 pbr==3.1.1
 py==1.4.34
 pycrypto==2.6.1
-pytest==3.2.1
-requests==2.18.3
-six==1.10.0
+pytest==3.2.3
+requests==2.18.4
+six==1.11.0
 urllib3==1.22
