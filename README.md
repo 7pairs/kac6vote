@@ -5,23 +5,23 @@
 
 ## 概要
 
-"kac6vote"は [QMAジャパンツアー2016 グランドスラムダービー](http://p.eagate.573.jp/game/qma/12/p/qt/setkac.html) の全組み合わせ120通りを一括して投票するツールです。
-株式会社コナミアミューズメント様におかれましては、今後はユーザーインターフェイスを抜本的に見直していただき、来年はこのようなツールが不要なシステムを構築していただけますよう、なにとぞよろしくお願い申し上げます。
+"kac6vote"は [QMAジャパンツアー2016 グランドスラムダービー](http://p.eagate.573.jp/game/qma/12/p/qt/setkac.html) の全組み合わせ120通りを一括して投票するためのツールです。
+株式会社コナミアミューズメント様におかれましては、今後はユーザーインターフェイスを抜本的に見直していただき、来年はこのようなツールが不要になるシステムを構築していただけますよう、なにとぞよろしくお願い申し上げます。
 
 ## 動作環境
 
-Python2.7での動作を確認しています。
-OSはmacOS、Linux、Windows、ブラウザはChrome、Firefoxで動作するはずですが、開発環境の都合によりmacOS＋Chromeの組み合わせでのみテストを実施しています。
+Python 2.7での動作を確認しています。
+OSはmacOS、Linux、Windows、ブラウザはChrome、Firefoxで動作すると思いますが、開発環境の都合によりmacOSとChromeの組み合わせでのみテストを実施しています。
 
 ## インストール
 
-同梱の `setup.py` を実行してください。
+`setup.py` を実行してください。
 
 ```
 $ python setup.py install
 ```
 
-pipが利用できる環境では、GitHubから直接インストールすることも可能です。
+pipの利用できる環境では、GitHubから直接インストールすることも可能です。
 
 ```
 $ pip install git+https://github.com/7pairs/kac6vote.git
@@ -35,6 +35,8 @@ ChromeもしくはFirefoxで [eAMUSEMENT](http://p.eagate.573.jp/) にログイ�
 
 ### 起動
 
+`kac6vote` コマンドを実行してください。
+
 ```
 $ kac6vote [-b <browser>]
 ```
@@ -42,8 +44,6 @@ $ kac6vote [-b <browser>]
 `<browser>` には `chrome` もしくは `firefox` を指定します。
 事前準備でログインに使用したブラウザを指定してください。
 `-b` オプションを省略すると `chrome` を指定したものと見なします。
-`-b` オプションに `chrome` 、 `firefox` 以外の文字列を指定しても `chrome` を指定したものと見なします。
-打ち間違いにご注意ください。
 
 ## ライブラリ
 
