@@ -89,7 +89,7 @@ def test_get_html_should_return_github_html_when_url_is_github_url():
     GitHubのURLを指定したとき、_get_html()がGitHubのHTMLを返却すること。
     """
     actual = kac6vote._get_html('https://github.com/7pairs')
-    assert b'7pairs (Jun-ya HASEBA)' in actual
+    assert b'7pairs (HASEBA Junya)' in actual
 
 
 def test_get_login_player_name_should_return_player_name_when_html_is_vote_page():
